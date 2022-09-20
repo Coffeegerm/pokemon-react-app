@@ -4,15 +4,19 @@ import { pokedex } from "../services/pokedex";
 const getPokemon = async ({ offset, pageSize, pokemon }) => {
   // throw new Error("error");
   let params = {};
-  if (!pokemon) {
+  // only want to fetch the pokemon minus the offset and pageSize
+  let url = '/pokemon';
+  if (pokemon) {
+    url += `/${pokemon}`;
+  } else {
     params = {
-      offset: offset,
+      offset,
       limit: pageSize,
     };
   }
   try {
     return (
-      await pokedex.get(`/pokemon${pokemon ? `/${pokemon}` : ""}`, {
+      await pokedex.get(url, {
         params,
       })
     ).data;
@@ -35,7 +39,12 @@ export const usePokemon = ({ pageSize, offset, pokemon } = {}) => {
       onSettled: (data, error) => {
         console.log("usePokemon settled", { data, error });
       },
-      staleTime: 240000
+      staleTime: 240000,
+      // transform data from return of query function
+      // does not affect what is stored in cache
+      select: (data) => {
+        return data;
+      }
     }
   );
   return {
