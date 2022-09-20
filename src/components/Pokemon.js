@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Grid,
-  Center,
-  Select,
-  Text,
-  Button,
-  Stack,
-  ChakraProvider,
-} from "@chakra-ui/react";
+import { Grid, Center, Select, Text, Button, Stack } from "@chakra-ui/react";
 import {
   Pagination,
   usePagination,
@@ -19,10 +11,13 @@ import {
   PaginationSeparator,
 } from "@ajna/pagination";
 import { usePokemon } from "../hooks/usePokemon";
+import { PokemonModal } from "./PokemonModal";
 
 export const Pokemon = () => {
   // states
   const [total, setTotal] = useState(undefined);
+
+  const [selectedPokemon, setSelectedPokemon] = useState(undefined);
 
   // constants
   const outerLimit = 2;
@@ -78,7 +73,7 @@ export const Pokemon = () => {
   };
 
   return (
-    <ChakraProvider>
+    <>
       <Stack>
         <Pagination
           pagesCount={pagesCount}
@@ -164,12 +159,26 @@ export const Pokemon = () => {
           templateRows="repeat(2, 1fr)"
         >
           {pokemon?.map(({ name }) => (
-            <Center key={name} bg="green.100" p={4}>
+            <Center
+              key={name}
+              bg="green.100"
+              p={4}
+              onClick={() => {
+                setSelectedPokemon(name);
+              }}
+            >
               <Text>{name}</Text>
             </Center>
           ))}
         </Grid>
       </Stack>
-    </ChakraProvider>
+      <PokemonModal
+        isOpen={selectedPokemon !== undefined}
+        onClose={() => {
+          setSelectedPokemon(undefined);
+        }}
+        pokemon={selectedPokemon}
+      />
+    </>
   );
 };
