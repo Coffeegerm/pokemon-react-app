@@ -163,6 +163,7 @@ export const Pokemon = () => {
               key={name}
               bg="green.100"
               p={4}
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 setSelectedPokemon(name);
               }}
