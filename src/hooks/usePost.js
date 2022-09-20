@@ -16,13 +16,13 @@ export const usePost = (id) => {
     isError: isErrorUpdate,
   } = useMutation(updatePost, {
     onSuccess: (data, variables) => {
-      console.log("mutate onSuccess", { data, variables });
+      console.info("usePost mutate onSuccess", { data, variables });
     },
     onError: (error, variables) => {
-      console.log("mutate onError", { error, variables });
+      console.error("usePost mutate onError", { error, variables });
     },
     onMutate: (variables) => {
-      console.log("mutate onMutate", { variables });
+      console.info("usePost onMutate", { variables });
     },
   });
 

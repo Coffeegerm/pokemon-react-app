@@ -31,13 +31,14 @@ export const usePokemon = ({ pageSize, offset, pokemon } = {}) => {
     () => getPokemon({ pageSize, offset, pokemon }),
     {
       onError: (error) => {
+        console.error("usePokemon error", error);
         window.alert(error.message);
       },
       onSuccess: (data) => {
-        console.log("usePokemon success", { data });
+        console.info("usePokemon success", { data });
       },
       onSettled: (data, error) => {
-        console.log("usePokemon settled", { data, error });
+        console.info("usePokemon settled", { data, error });
       },
       staleTime: 240000,
       // transform data from return of query function

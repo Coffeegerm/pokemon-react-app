@@ -23,14 +23,13 @@ export const PostModal = ({ isOpen, onClose, id }) => {
     post,
   } = usePost(id);
 
-  console.log({ post });
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit } = useForm({
     mode: "onChange",
   });
-  console.log({ formState });
+
   const onSubmit = (data) => {
-    console.log("onSubmit", { data, id });
+    console.info("onSubmit", { data, id });
     mutate({ ...data, id });
   };
   return (
