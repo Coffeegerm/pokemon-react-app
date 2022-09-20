@@ -21,8 +21,12 @@ export const PostModal = ({ isOpen, onClose, id }) => {
     isLoadingUpdate,
     mutate,
     post,
-  } = usePost(id);
-
+  } = usePost(id, {
+    onMutateSuccess: () => {
+      onClose();
+      window.alert("Post updated successfully");
+    },
+  });
 
   const { register, handleSubmit } = useForm({
     mode: "onChange",
@@ -40,16 +44,22 @@ export const PostModal = ({ isOpen, onClose, id }) => {
           <ModalHeader>Edit Post</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Input
-              placeholder="Title"
-              defaultValue={post?.title}
-              {...register("title")}
-            />
-            <Input
-              placeholder="Body"
-              defaultValue={post?.body}
-              {...register("body")}
-            />
+            {isLoadingPost || isLoadingUpdate ? (
+              <h1>Loading...</h1>
+            ) : (
+              <>
+                <Input
+                  placeholder="Title"
+                  defaultValue={post?.title}
+                  {...register("title", { defaultValue: post?.title })}
+                />
+                <Input
+                  placeholder="Body"
+                  defaultValue={post?.body}
+                  {...register("body", { defaultValue: post?.body })}
+                />
+              </>
+            )}
           </ModalBody>
 
           <ModalFooter>

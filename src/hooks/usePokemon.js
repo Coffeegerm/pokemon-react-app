@@ -5,7 +5,7 @@ const getPokemon = async ({ offset, pageSize, pokemon }) => {
   // throw new Error("error");
   let params = {};
   // only want to fetch the pokemon minus the offset and pageSize
-  let url = '/pokemon';
+  let url = "/pokemon";
   if (pokemon) {
     url += `/${pokemon}`;
   } else {
@@ -26,7 +26,30 @@ const getPokemon = async ({ offset, pageSize, pokemon }) => {
 };
 
 export const usePokemon = ({ pageSize, offset, pokemon } = {}) => {
-  const { data, isLoading, isError } = useQuery(
+  const {
+    data,
+    dataUpdatedAt,
+    error,
+    errorUpdatedAt,
+    failureCount,
+    isError,
+    isFetched,
+    isFetchedAfterMount,
+    isFetching,
+    isPaused,
+    isLoading,
+    isLoadingError,
+    isPlaceholderData,
+    isPreviousData,
+    isRefetchError,
+    isRefetching,
+    isStale,
+    isSuccess,
+    refetch,
+    remove,
+    status,
+    fetchStatus,
+  } = useQuery(
     ["pokemon", pageSize, offset, pokemon],
     () => getPokemon({ pageSize, offset, pokemon }),
     {
@@ -45,7 +68,7 @@ export const usePokemon = ({ pageSize, offset, pokemon } = {}) => {
       // does not affect what is stored in cache
       select: (data) => {
         return data;
-      }
+      },
     }
   );
   return {

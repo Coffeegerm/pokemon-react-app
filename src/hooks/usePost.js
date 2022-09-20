@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getSinglePost, updatePost } from "../services/roledex";
 
-export const usePost = (id) => {
+export const usePost = (id, { onMutateSuccess } = {}) => {
   const {
     data: post,
     isLoading: isLoadingPost,
@@ -14,8 +14,10 @@ export const usePost = (id) => {
     mutate,
     isLoading: isLoadingUpdate,
     isError: isErrorUpdate,
+    isSuccess: isSuccessUpdate,
   } = useMutation(updatePost, {
     onSuccess: (data, variables) => {
+      onMutateSuccess?.();
       console.info("usePost mutate onSuccess", { data, variables });
     },
     onError: (error, variables) => {
